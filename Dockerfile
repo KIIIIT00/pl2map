@@ -85,6 +85,7 @@ RUN pip install --no-cache-dir -e ./third_party/pytlsd && \
 RUN apt-get update && apt-get install -y code && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
 # Create a non-root user for VSCode
 RUN useradd -m -s /bin/bash -G sudo vscode && \
     echo "vscode:vscode" | chpasswd && \
@@ -112,6 +113,15 @@ ENV PYTHONPATH "${PYTHONPATH}:/app"
 # Switch back to the app directory
 WORKDIR /app
 RUN sudo chown -R vscode:vscode /app
+
+# Prepare scripts for downloading
+RUN chmod +x /app/prepare_scripts/*.sh
+RUN /bin/bash -x /app/prepare_scripts/seven_scenes.sh || (echo "Script failed" && exit 2)
+RUN /app/prepare_scripts/seven_scenes.sh
+RUN /app/prepare_scripts/cambridge.sh
+RUN /app/prepare_scripts/indoor6.sh
+RUN /app/prepare_scripts/download_pre_trained_models.sh
+
 
 # Default command to activate an interactive bash session
 CMD ["/bin/bash"]
