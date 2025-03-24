@@ -29,6 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openssh-server \
     locales \
     sudo \
+    unzip \
+    coreutils \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
   
