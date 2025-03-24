@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gnupg \
     lsb-release \
     software-properties-common \
+    apt-transport-https \
     openssh-server \
     locales \
     sudo \
@@ -105,6 +106,10 @@ RUN code --install-extension ms-python.python \
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 ENV PYTHONPATH "${PYTHONPATH}:/app"
+
+# Switch back to the app directory
+WORKDIR /app
+RUN sudo chown -R vscode:vscode /app
 
 # Default command to activate an interactive bash session
 CMD ["/bin/bash"]
