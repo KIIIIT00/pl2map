@@ -114,13 +114,5 @@ ENV PYTHONPATH "${PYTHONPATH}:/app"
 WORKDIR /app
 RUN sudo chown -R vscode:vscode /app
 
-# Prepare scripts for downloading
-RUN chmod +x /app/prepare_scripts/*.sh
-RUN /bin/bash -x /app/prepare_scripts/seven_scenes.sh || (echo "Script failed" && exit 2)
-RUN /app/prepare_scripts/cambridge.sh
-RUN /app/prepare_scripts/indoor6.sh
-RUN /app/prepare_scripts/download_pre_trained_models.sh
-
-
-# Default command to activate an interactive bash sessionfffffffffffffffffffcv
+# Default command to activate an interactive bash session
 CMD ["/bin/bash"]
