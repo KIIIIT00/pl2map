@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  pl2map:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pl2map-dev
+    container_name: pl2map-container
+    user: vscode
+    working_dir: /app
+    volumes:
+      - ./logs:/app/logs  # ホストのlogsフォルダをコンテナ内の/app/logsにマウント
+      - ./train_test_datasets:/app/train_test_datasets  # ホストのtrain_test_datasetsフォルダをマウント
+    ports:
+      - "8097:8097"  # visdomのデフォルトポート（必要に応じて）
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [compute, utility]
+    tty: true
+    stdin_open: true
+    command: /bin/bash
